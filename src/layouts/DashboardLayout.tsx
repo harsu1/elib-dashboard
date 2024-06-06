@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -31,8 +31,14 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import useTokenStore from "@/store";
 
 const DashboardLayout = () => {
+    const token =useTokenStore(state=>state.token)
+
+    if(!token){
+        return <Navigate to={'/auth/login'} replace/>
+    }
   return (
     <div>
       <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
