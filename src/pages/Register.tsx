@@ -13,8 +13,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { register } from "@/http/api";
 import { LoaderCircle } from "lucide-react";
+import useTokenStore from "@/store";
  const RegisterPage = () => {
-
+    const setToken =useTokenStore((state)=>state.setToken)
     const navigate = useNavigate();
     const nameRef=useRef<HTMLInputElement>(null)
     const emailRef = useRef<HTMLInputElement>(null);
@@ -22,9 +23,10 @@ import { LoaderCircle } from "lucide-react";
   
    const mutation = useMutation({
      mutationFn: register,
-     onSuccess: ( ) => {
+     onSuccess: (response) => {
        // Invalidate and refetch
- 
+       setToken(response.data.accessToken);
+
         navigate("/dashboard/home");
      },
    });
